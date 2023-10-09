@@ -2,9 +2,9 @@
 
 A plugin for the [Glyphs font editor](http://glyphsapp.com/) displaying coordinates, distances, and angles for selected nodes (and handles) along the path line.
 
-Shortcut assigned: `⌘L`
-
 ![](ShowCoordinatesDistanceAngle.png)
+
+Shortcut assigned: `⌘L`
 
 - Coordinates are displayed in black, distances are in blue, and angles are in green.
 - Coordinates, distances and angles are displayed when 12 or less nodes selected. It could be changed on `line 52` of the `plugin.py`.
