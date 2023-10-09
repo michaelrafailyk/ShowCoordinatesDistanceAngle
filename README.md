@@ -15,6 +15,8 @@ Shortcut assigned: `⌘L`
 - Coordinates, distances and angles at the very small display zoom size are not displayed.
 - Dark mode supported.
 
+![](ShowCoordinatesDistanceAngle2.gif)
+
 ![](ShowCoordinatesDistanceAngle.gif)
 
 ### License
