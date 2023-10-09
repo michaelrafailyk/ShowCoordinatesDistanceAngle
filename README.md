@@ -17,7 +17,7 @@ Shortcut assigned: `⌘L`
 
 ![](ShowCoordinatesDistanceAngle.gif)
 
-# License
+### License
 
 Copyright 2023 Michael Rafailyk (@michaelrafailyk).
 
