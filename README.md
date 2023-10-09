@@ -15,6 +15,8 @@ A plugin for the [Glyphs font editor](http://glyphsapp.com/) displaying coordina
 
 ![](ShowCoordinatesDistanceAngle.gif)
 
+Shortcut: `⌘L`
+
 # License
 
 Copyright 2023 Michael Rafailyk (@michaelrafailyk).
