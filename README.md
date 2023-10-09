@@ -1,4 +1,4 @@
-# ShowCoordinatesDistanceAngle
+# ShowCoordinatesDistanceAngle.glyphsReporter
 
 A plugin for the [Glyphs font editor](http://glyphsapp.com/) displaying coordinates, distances, and angles for selected nodes (and handles) along the path line.
 
