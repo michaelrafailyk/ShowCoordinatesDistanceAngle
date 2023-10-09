@@ -17,13 +17,13 @@
 	<key>CFBundleVersion</key>
 	<string>001</string>
 	<key>UpdateFeedURL</key>
-	<string>https://github.com/michaelrafailyk</string>
+	<string>https://github.com/michaelrafailyk/ShowCoordinatesDistanceAngle/blob/main/ShowCoordinatesDistanceAngle.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
-	<string>https://github.com/michaelrafailyk</string>
+	<string>https://github.com/michaelrafailyk/ShowCoordinatesDistanceAngle</string>
 	<key>productReleaseNotes</key>
-	<string></string>
+	<string>Initial release</string>
 	<key>NSHumanReadableCopyright</key>
-	<string></string>
+	<string>Copyright, Michael Rafailyk, 2023</string>
 	<key>NSPrincipalClass</key>
 	<string>ShowCoordinatesDistanceAngle</string>
 	<key>PyMainFileNames</key>
