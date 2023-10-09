@@ -2,7 +2,7 @@
 
 A plugin for the [Glyphs font editor](http://glyphsapp.com/).
 
-Display coordinates above or below the selected nodes and handles, and display distances and angles along the path lines.
+Display coordinates above or below the selected nodes and handles, and display distances and angles (italic respected) along the path lines.
 
 ![](ShowCoordinatesDistanceAngle.png)
 
