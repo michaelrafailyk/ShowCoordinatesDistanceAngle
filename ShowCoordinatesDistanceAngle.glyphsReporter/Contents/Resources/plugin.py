@@ -34,7 +34,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		blue = NSColor.colorWithString_('#3D6DBF')
 		green = NSColor.colorWithString_('#299952')
 		# dark mode colors
-		if str(Glyphs.font.currentTab.graphicView().canvasColor()) == 'Generic Gray Gamma 2.2 Profile colorspace 0.05 1':
+		if self.controller.graphicView().drawDark():
 			black = NSColor.textColor().colorWithAlphaComponent_(0.9)
 			blue = NSColor.colorWithString_('#80BFFF')
 			green = NSColor.colorWithString_('#4FE084')
