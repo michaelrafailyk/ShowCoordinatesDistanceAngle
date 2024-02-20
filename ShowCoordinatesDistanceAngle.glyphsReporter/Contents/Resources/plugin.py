@@ -114,7 +114,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 					betweenHandles = nodePrev.type == OFFCURVE and node.type == OFFCURVE
 					betweenOpenPath = not path.closed and i == 0
 					# do not display labels between the handles, as well as between the last and first node of an open path
-					if (nodePrev in selection or node in selection) and not betweenHandles and not betweenOpenPath and scale < 6:
+					if (nodePrev in selection or node in selection) and not betweenHandles and not betweenOpenPath:
 						posOne = nodePrev.position
 						posTwo = node.position
 						posMid = addPoints(posOne, posTwo)
