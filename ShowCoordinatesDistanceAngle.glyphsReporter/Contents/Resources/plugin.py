@@ -42,7 +42,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		offset = 3 / scale
 		shift = 1 / scale
 		# positioning correction at high zoom (before the grid mode)
-		if scale > 6.2:
+		if scale > 6:
 			offset = 8 / scale
 			shift = 6 / scale
 		toolSelect = Glyphs.font.tool == 'SelectTool'
