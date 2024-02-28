@@ -31,8 +31,8 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 	def foreground(self, layer):
 		# light mode colors
 		black = NSColor.textColor().colorWithAlphaComponent_(0.7)
-		blue = NSColor.colorWithString_('#3D6DBF')
-		green = NSColor.colorWithString_('#299952')
+		blue = NSColor.colorWithString_('#345EA4')
+		green = NSColor.colorWithString_('#1E7D41')
 		# dark mode colors
 		if self.controller.graphicView().drawDark():
 			black = NSColor.textColor().colorWithAlphaComponent_(0.9)
@@ -41,6 +41,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		scale = self.getScale()
 		offset = 3 / scale
 		shift = 1 / scale
+		# positioning correction at high zoom (before the grid mode)
+		if scale > 6.2:
+			offset = 8 / scale
+			shift = 6 / scale
 		toolSelect = Glyphs.font.tool == 'SelectTool'
 		toolPen = Glyphs.font.tool == 'DrawTool'
 		toolTempPreview = Glyphs.font.parent.windowController().toolTempSelection() != None
