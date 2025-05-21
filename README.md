@@ -1,4 +1,4 @@
-# ShowCoordinatesDistanceAngle.glyphsReporter
+# Show Coordinates Distance Angle
 
 A plugin for the [Glyphs font editor](http://glyphsapp.com/).
 
@@ -20,13 +20,3 @@ Shortcut assigned: `⌘L`
 ![](ShowCoordinatesDistanceAngle2.gif)
 
 ![](ShowCoordinatesDistanceAngle.gif)
-
-### License
-
-Copyright 2023 Michael Rafailyk (@michaelrafailyk).
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use the software provided here except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-See the License file included in this repository for further details.
