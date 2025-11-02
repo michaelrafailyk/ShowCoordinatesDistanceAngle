@@ -1,4 +1,4 @@
-# ShowCoordinatesDistanceAngle.glyphsReporter
+# Show Coordinates Distance Angle
 
 A plugin for the [Glyphs font editor](http://glyphsapp.com/).
 
