@@ -28,6 +28,21 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		return {'degree': degree, 'label': label}
 	
 	@objc.python_method
+	def pointOnSegment(self, p, a, b, tolerance=0.01):
+		# check collinearity using cross product
+		cross = (p.y - a.y) * (b.x - a.x) - (p.x - a.x) * (b.y - a.y)
+		if abs(cross) > tolerance:
+			return False
+		# check bounding box
+		dot = (p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)
+		if dot < 0:
+			return False
+		squaredLength = (b.x - a.x)**2 + (b.y - a.y)**2
+		if dot > squaredLength:
+			return False
+		return True
+	
+	@objc.python_method
 	def foreground(self, layer):
 		# light mode colors
 		black = NSColor.textColor().colorWithAlphaComponent_(0.7)
@@ -50,6 +65,11 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		toolTempPreview = Glyphs.font.parent.windowController().toolTempSelection() != None
 		selection = layer.selection
 		nodeLast = {'x': 0, 'y': 0}
+		# intersections
+		intersections = []
+		inter = layer.intersections()
+		for i in range(inter.count()):
+			intersections.append(inter.pointAtIndex_(i))
 		# display labels if selected 12 or less nodes
 		# display labels only when Select or Draw tools are active, and not during quick preview (Space key)
 		# display labels if the the glyph is not too small and if the grid is not displayed
@@ -119,34 +139,48 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 					betweenOpenPath = not path.closed and i == 0
 					# do not display labels between the handles, as well as between the last and first node of an open path
 					if (nodePrev in selection or node in selection) and not betweenHandles and not betweenOpenPath:
-						posOne = nodePrev.position
-						posTwo = node.position
-						posMid = addPoints(posOne, posTwo)
-						position = NSPoint(posMid.x * 0.5, posMid.y * 0.5)
-						distanceValue = distance((posOne.x, posOne.y), (posTwo.x, posTwo.y))
-						distanceTreshold = distanceValue * scale > 50
-						if len(selection) > 2:
-							distanceTreshold = distanceValue * scale > 30
-						angle = self.angle(posOne, posTwo)
-						distanceLabel = ('%.0f' % (distanceValue)).replace('.0', '')
-						angleLabel = ('%.1f' % (angle['label'])).replace('.0', '')
-						# rotate context if the segment is not horizontal
-						if (angleLabel != '90'):
-							NSGraphicsContext.saveGraphicsState()
-							transform = NSAffineTransform.new()
-							transform.translateXBy_yBy_(position.x, position.y)
-							transform.rotateByDegrees_(angle['degree'])
-							transform.translateXBy_yBy_(-position.x, -position.y)
-							transform.concat()
-						# show distance
-						if distanceTreshold:
-							self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor = blue, align = 'bottomcenter')
-						# show angle
-						if angleLabel != '0' and angleLabel != '90' and distanceTreshold:
-							self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor = green, align = 'topcenter')
-						# restore context if rotated
-						if (angleLabel != '90'):
-							NSGraphicsContext.restoreGraphicsState()
+						pointOne = nodePrev.position
+						pointTwo = node.position
+						# add intersections (if present) into segment
+						splitPoints = [pointOne]
+						for p in intersections:
+							if self.pointOnSegment(p, pointOne, pointTwo):
+								if distance((p.x, p.y), (pointOne.x, pointOne.y)) < 0.01:
+									continue
+								if distance((p.x, p.y), (pointTwo.x, pointTwo.y)) < 0.01:
+									continue
+								splitPoints.append(p)
+						splitPoints.append(pointTwo)
+						splitPoints.sort(key=lambda pt: (pt.x - pointOne.x)**2 + (pt.y - pointOne.y)**2)
+						for j in range(len(splitPoints)-1):
+							posOne = splitPoints[j]
+							posTwo = splitPoints[j+1]
+							posMid = addPoints(posOne, posTwo)
+							position = NSPoint(posMid.x * 0.5, posMid.y * 0.5)
+							distanceValue = distance((posOne.x, posOne.y), (posTwo.x, posTwo.y))
+							distanceTreshold = distanceValue * scale > 40
+							if len(selection) > 2:
+								distanceTreshold = distanceValue * scale > 20
+							angle = self.angle(posOne, posTwo)
+							distanceLabel = ('%.0f' % (distanceValue)).replace('.0', '')
+							angleLabel = ('%.1f' % (angle['label'])).replace('.0', '')
+							# rotate context if the segment is not horizontal
+							if (angleLabel != '90'):
+								NSGraphicsContext.saveGraphicsState()
+								transform = NSAffineTransform.new()
+								transform.translateXBy_yBy_(position.x, position.y)
+								transform.rotateByDegrees_(angle['degree'])
+								transform.translateXBy_yBy_(-position.x, -position.y)
+								transform.concat()
+							# show distance
+							if distanceTreshold:
+								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor = blue, align = 'bottomcenter')
+							# show angle
+							if angleLabel != '0' and angleLabel != '90' and distanceTreshold:
+								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor = green, align = 'topcenter')
+							# restore context if rotated
+							if (angleLabel != '90'):
+								NSGraphicsContext.restoreGraphicsState()
 	
 	@objc.python_method
 	def __file__(self):
