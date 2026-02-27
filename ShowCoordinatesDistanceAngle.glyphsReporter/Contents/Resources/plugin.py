@@ -158,9 +158,9 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 							posMid = addPoints(posOne, posTwo)
 							position = NSPoint(posMid.x * 0.5, posMid.y * 0.5)
 							distanceValue = distance((posOne.x, posOne.y), (posTwo.x, posTwo.y))
-							distanceTreshold = distanceValue * scale > 40
+							distanceTreshold = distanceValue * scale > 50
 							if len(selection) > 2:
-								distanceTreshold = distanceValue * scale > 20
+								distanceTreshold = distanceValue * scale > 30
 							angle = self.angle(posOne, posTwo)
 							distanceLabel = ('%.0f' % (distanceValue)).replace('.0', '')
 							angleLabel = ('%.1f' % (angle['label'])).replace('.0', '')
