@@ -73,7 +73,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		# display labels if selected 12 or less nodes
 		# display labels only when Select or Draw tools are active, and not during quick preview (Space key)
 		# display labels if the the glyph is not too small and if the grid is not displayed
-		if selection and len(selection) < 13 and (toolSelect or toolPen) and not toolTempPreview and scale > 0.2 and scale < 8:
+		if selection and (toolSelect or toolPen) and not toolTempPreview and scale > 0.2 and scale < 8:
 			for path in layer.paths:
 				nodes = path.nodes
 				nodesCount = len(nodes)
@@ -87,7 +87,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 						# show labels only when just one or two nodes selected
 						# do not show (duplicate) node coordinates if it is located in the same position as the previous one (like a handles can)
 						notDuplicate = node.x != nodeLast['x'] or node.y != nodeLast['y']
-						if len(selection) <= 2 and type(node) is GSNode and notDuplicate:
+						if type(node) is GSNode and notDuplicate:
 							# show labels only if two nodes are not too close horizontally
 							nodesNotTooClose = True
 							if nodePrev in selection and node.y == nodePrev.y:
