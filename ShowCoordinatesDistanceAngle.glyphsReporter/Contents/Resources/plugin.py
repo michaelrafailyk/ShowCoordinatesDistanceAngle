@@ -93,9 +93,6 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 							if nodePrev in selection and node.y == nodePrev.y:
 								distanceBetweenNodes = node.x - nodePrev.x if node.x > nodePrev.x else nodePrev.x - node.x
 								nodesNotTooClose = distanceBetweenNodes * scale > 45
-							elif nodeNext in selection and node.y == nodeNext.y:
-								distanceBetweenNodes = node.x - nodeNext.x if node.x > nodeNext.x else nodeNext.x - node.x
-								nodesNotTooClose = distanceBetweenNodes * scale > 45
 							if nodesNotTooClose:
 								nodeX = node.x
 								nodeY = node.y
