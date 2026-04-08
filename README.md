@@ -4,7 +4,7 @@ A plugin for the [Glyphs font editor](http://glyphsapp.com/).
 
 Display coordinates above or below the selected nodes and handles, and display distances and angles along the path lines.
 
-![](ShowCoordinatesDistanceAngle.png)
+![](Images/ShowCoordinatesDistanceAngle.png)
 
 Shortcut assigned: `⌘L`
 
@@ -15,7 +15,7 @@ Shortcut assigned: `⌘L`
 - Coordinates, distances and angles at the very small display zoom size are not displayed.
 - Dark mode supported.
 
-![](ShowCoordinatesDistanceAngle.gif)
+![](Images/ShowCoordinatesDistanceAngle.gif)
 
 ## Donate
 
