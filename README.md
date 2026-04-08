@@ -17,6 +17,10 @@ Shortcut assigned: `⌘L`
 
 ![](Images/ShowCoordinatesDistanceAngle.gif)
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
 ## Donate
 
 This plugin is free to use. If it saves you time or makes your work easier, consider supporting my work:
