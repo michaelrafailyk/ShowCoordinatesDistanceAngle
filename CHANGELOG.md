@@ -15,3 +15,6 @@
 
 ## 1.1
 - Dark Mode detection added.
+
+## 1.0
+- Initial release
