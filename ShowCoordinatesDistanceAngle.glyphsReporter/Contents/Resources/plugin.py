@@ -64,7 +64,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		toolPen = Glyphs.font.tool == 'DrawTool'
 		toolTempPreview = Glyphs.font.parent.windowController().toolTempSelection() != None
 		selection = layer.selection
-		nodeLast = {'x': 0, 'y': 0}
+		nodeLast = {'x': None, 'y': None}
 		# intersections
 		intersections = []
 		inter = layer.intersections()
