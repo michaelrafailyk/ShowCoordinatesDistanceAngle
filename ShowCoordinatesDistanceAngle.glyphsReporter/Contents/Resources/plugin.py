@@ -124,8 +124,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 										alignLeft = 'topleft'
 								positionLeft = NSPoint(nodeX - offset + shift, y)
 								positionRight = NSPoint(nodeX + offset - shift, y)
-								textLeft = str(nodeX).replace('.0', '')
-								textRight = str(nodeY).replace('.0', '')
+								def cleanZero(v, eps=1e-9):
+									return 0 if abs(v) < eps else v
+								textLeft = str(cleanZero(nodeX)).replace('.0', '')
+								textRight = str(cleanZero(nodeY)).replace('.0', '')
 								# show x coordinate left of center
 								self.drawTextAtPoint(textLeft, positionLeft, fontColor = black, align = alignRight)
 								# show y coordinate right of center
