@@ -1,5 +1,6 @@
 ## 1.6
 - Display just "0" x or y coordinate instead of "-0" in some rare cases.
+- Allow to display x:0 y:0 coordinate which was suppressed previously.
 
 ## 1.5
 - Show just one coordinate for two collapsed (or very close) nodes instead of hiding both.
