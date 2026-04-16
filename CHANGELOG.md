@@ -1,6 +1,6 @@
 ## 1.7
-- Show coordinates for anchors as well
-- Fix the condition for label positioning below the node
+- Show coordinates for anchors as well.
+- Fix the condition for label positioning below the node.
 
 ## 1.6
 - Display just "0" x or y coordinate instead of "-0" in some rare cases.
