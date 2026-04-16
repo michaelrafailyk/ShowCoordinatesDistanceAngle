@@ -74,6 +74,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		# display labels only when Select or Draw tools are active, and not during quick preview (Space key)
 		# display labels if the the glyph is not too small and if the grid is not displayed
 		if selection and (toolSelect or toolPen) and not toolTempPreview and scale > 0.2 and scale < 8:
+			
 			for path in layer.paths:
 				nodes = path.nodes
 				nodesCount = len(nodes)
@@ -107,8 +108,8 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i+2) % nodesCount]
 								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i+3) % nodesCount]
 								# move label below the node if the path segment moves up but not orthogonal
-								prevUp = nodePrevOncurve.y > nodeY and nodePrevOncurve.x != nodeX
-								nextUp = nodeNextOncurve.y > nodeY and nodeNextOncurve.x != nodeX
+								prevUp = nodePrevOncurve.y > nodeY
+								nextUp = nodeNextOncurve.y > nodeY
 								prevSame = nodePrevOncurve.y == nodeY
 								nextSame = nodeNextOncurve.y == nodeY
 								y = nodeY + offset
@@ -116,12 +117,8 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								alignLeft = 'bottomleft'
 								if (prevUp and nextUp) or (prevUp and nextSame) or (nextUp and prevSame):
 									y = nodeY - offset
-									if Glyphs.versionNumber < 3.2:
-										# a hack for Glyphs 3.1 that incorrectly displays topleft positioning
-										y = y - 12 / scale - 1.4
-									else:
-										alignRight = 'topright'
-										alignLeft = 'topleft'
+									alignRight = 'topright'
+									alignLeft = 'topleft'
 								positionLeft = NSPoint(nodeX - offset + shift, y)
 								positionRight = NSPoint(nodeX + offset - shift, y)
 								def cleanZero(v, eps=1e-9):
@@ -180,6 +177,28 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 							# restore context if rotated
 							if (angleLabel != '90'):
 								NSGraphicsContext.restoreGraphicsState()
+			
+			# show anchor coordinate
+			for anchor in layer.anchors:
+				if anchor in selection:
+					anchorX = anchor.x
+					anchorY = anchor.y
+					y = anchorY + offset
+					alignRight = 'bottomright'
+					alignLeft = 'bottomleft'
+					if (anchor.name == 'bottom' or anchor.y <= 0):
+						# move label below for bottom anchors
+						y = anchorY - offset
+						alignRight = 'topright'
+						alignLeft = 'topleft'
+					positionLeft = NSPoint(anchorX - offset + shift, y)
+					positionRight = NSPoint(anchorX + offset - shift, y)
+					textLeft = str(anchorX).replace('.0', '')
+					textRight = str(anchorY).replace('.0', '')
+					# show x coordinate left of center
+					self.drawTextAtPoint(textLeft, positionLeft, fontColor = black, align = alignRight)
+					# show y coordinate right of center
+					self.drawTextAtPoint(textRight, positionRight, fontColor = black, align = alignLeft)
 	
 	@objc.python_method
 	def __file__(self):
