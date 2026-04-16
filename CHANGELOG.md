@@ -1,5 +1,5 @@
 ## 1.7
-- Show coordinates for anchors as well.
+- Show coordinates for selected anchors as well.
 - Fix the condition for label positioning below the node.
 
 ## 1.6
