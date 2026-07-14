@@ -54,7 +54,6 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 			blue = NSColor.colorWithString_('#80BFFF')
 			green = NSColor.colorWithString_('#4FE084')
 		scale = self.getScale()
-		fontSize = 11
 		offset = 3 / scale
 		shift = 1 / scale
 		# positioning correction at high zoom (before the grid mode)
@@ -127,9 +126,9 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								textLeft = str(cleanZero(nodeX)).replace('.0', '')
 								textRight = str(cleanZero(nodeY)).replace('.0', '')
 								# show x coordinate left of center
-								self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, fontSize=fontSize, align=alignRight)
+								self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, align=alignRight)
 								# show y coordinate right of center
-								self.drawTextAtPoint(textRight, positionRight, fontColor=black, fontSize=fontSize, align=alignLeft)
+								self.drawTextAtPoint(textRight, positionRight, fontColor=black, align=alignLeft)
 
 					# show distance and angle
 					betweenHandles = nodePrev.type == OFFCURVE and node.type == OFFCURVE
@@ -171,10 +170,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								transform.concat()
 							# show distance
 							if distanceTreshold:
-								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor=blue, fontSize=fontSize, align='bottomcenter')
+								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor=blue, align='bottomcenter')
 							# show angle
 							if angleLabel != '0' and angleLabel != '90' and distanceTreshold:
-								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor=green, fontSize=fontSize, align='topcenter')
+								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor=green, align='topcenter')
 							# restore context if rotated
 							if (angleLabel != '90'):
 								NSGraphicsContext.restoreGraphicsState()
@@ -197,9 +196,9 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 					textLeft = str(anchorX).replace('.0', '')
 					textRight = str(anchorY).replace('.0', '')
 					# show x coordinate left of center
-					self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, fontSize=fontSize, align=alignRight)
+					self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, align=alignRight)
 					# show y coordinate right of center
-					self.drawTextAtPoint(textRight, positionRight, fontColor=black, fontSize=fontSize, align=alignLeft)
+					self.drawTextAtPoint(textRight, positionRight, fontColor=black, align=alignLeft)
 
 	@objc.python_method
 	def __file__(self):
