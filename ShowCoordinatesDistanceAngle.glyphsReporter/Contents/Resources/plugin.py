@@ -7,14 +7,14 @@ from math import degrees, atan2
 from AppKit import NSGraphicsContext
 
 class ShowCoordinatesDistanceAngle(ReporterPlugin):
-	
+
 	@objc.python_method
 	def settings(self):
 		self.menuName = 'Coordinates Distance Angle'
 		# shortcut: ⌘L
 		self.keyboardShortcut = 'l'
 		self.keyboardShortcutModifier = NSCommandKeyMask
-	
+
 	@objc.python_method
 	def angle(self, a, b):
 		# "degree" is the real angle which is angled at 90 degrees to fit the label along the line
@@ -26,7 +26,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		if degree <= -90: degree += 180
 		elif degree > 90: degree -= 180
 		return {'degree': degree, 'label': label}
-	
+
 	@objc.python_method
 	def pointOnSegment(self, p, a, b, tolerance=0.01):
 		# check collinearity using cross product
@@ -41,7 +41,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		if dot > squaredLength:
 			return False
 		return True
-	
+
 	@objc.python_method
 	def foreground(self, layer):
 		# light mode colors
@@ -54,6 +54,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 			blue = NSColor.colorWithString_('#80BFFF')
 			green = NSColor.colorWithString_('#4FE084')
 		scale = self.getScale()
+		fontSize = 11
 		offset = 3 / scale
 		shift = 1 / scale
 		# positioning correction at high zoom (before the grid mode)
@@ -74,7 +75,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 		# display labels only when Select or Draw tools are active, and not during quick preview (Space key)
 		# display labels if the the glyph is not too small and if the grid is not displayed
 		if selection and (toolSelect or toolPen) and not toolTempPreview and scale > 0.2 and scale < 8:
-			
+
 			for path in layer.paths:
 				nodes = path.nodes
 				nodesCount = len(nodes)
@@ -82,7 +83,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 					nodePrev = nodes[(i-1) % nodesCount]
 					node = nodes[i]
 					nodeNext = nodes[(i+1) % nodesCount]
-					
+
 					# show node coordinates
 					if node in selection:
 						# show labels only when just one or two nodes selected
@@ -126,10 +127,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								textLeft = str(cleanZero(nodeX)).replace('.0', '')
 								textRight = str(cleanZero(nodeY)).replace('.0', '')
 								# show x coordinate left of center
-								self.drawTextAtPoint(textLeft, positionLeft, fontColor = black, align = alignRight)
+								self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, fontSize=fontSize, align=alignRight)
 								# show y coordinate right of center
-								self.drawTextAtPoint(textRight, positionRight, fontColor = black, align = alignLeft)
-					
+								self.drawTextAtPoint(textRight, positionRight, fontColor=black, fontSize=fontSize, align=alignLeft)
+
 					# show distance and angle
 					betweenHandles = nodePrev.type == OFFCURVE and node.type == OFFCURVE
 					betweenOpenPath = not path.closed and i == 0
@@ -170,14 +171,14 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								transform.concat()
 							# show distance
 							if distanceTreshold:
-								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor = blue, align = 'bottomcenter')
+								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor=blue, fontSize=fontSize, align='bottomcenter')
 							# show angle
 							if angleLabel != '0' and angleLabel != '90' and distanceTreshold:
-								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor = green, align = 'topcenter')
+								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor=green, fontSize=fontSize, align='topcenter')
 							# restore context if rotated
 							if (angleLabel != '90'):
 								NSGraphicsContext.restoreGraphicsState()
-			
+
 			# show anchor coordinate
 			for anchor in layer.anchors:
 				if anchor in selection:
@@ -196,10 +197,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 					textLeft = str(anchorX).replace('.0', '')
 					textRight = str(anchorY).replace('.0', '')
 					# show x coordinate left of center
-					self.drawTextAtPoint(textLeft, positionLeft, fontColor = black, align = alignRight)
+					self.drawTextAtPoint(textLeft, positionLeft, fontColor=black, fontSize=fontSize, align=alignRight)
 					# show y coordinate right of center
-					self.drawTextAtPoint(textRight, positionRight, fontColor = black, align = alignLeft)
-	
+					self.drawTextAtPoint(textRight, positionRight, fontColor=black, fontSize=fontSize, align=alignLeft)
+
 	@objc.python_method
 	def __file__(self):
 		return __file__
