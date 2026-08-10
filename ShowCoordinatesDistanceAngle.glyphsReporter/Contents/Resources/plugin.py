@@ -2,9 +2,10 @@
 from __future__ import division
 import objc
 from GlyphsApp import Glyphs, GSNode, OFFCURVE, addPoints, distance
-from GlyphsApp.plugins import ReporterPlugin, NSCommandKeyMask, NSPoint, NSColor, NSAffineTransform
+from GlyphsApp.plugins import ReporterPlugin
 from math import degrees, atan2
-from AppKit import NSGraphicsContext
+from Cocoa import NSGraphicsContext, NSCommandKeyMask, NSPoint, NSColor, NSAffineTransform
+
 
 class ShowCoordinatesDistanceAngle(ReporterPlugin):
 
