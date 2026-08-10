@@ -63,7 +63,7 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 			shift = 6 / scale
 		toolSelect = Glyphs.font.tool == 'SelectTool'
 		toolPen = Glyphs.font.tool == 'DrawTool'
-		toolTempPreview = Glyphs.font.parent.windowController().toolTempSelection() != None
+		toolTempPreview = Glyphs.font.parent.windowController().toolTempSelection() is not None
 		selection = layer.selection
 		nodeLast = {'x': None, 'y': None}
 		# intersections
@@ -80,9 +80,9 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 				nodes = path.nodes
 				nodesCount = len(nodes)
 				for i in range(nodesCount):
-					nodePrev = nodes[(i-1) % nodesCount]
+					nodePrev = nodes[(i - 1) % nodesCount]
 					node = nodes[i]
-					nodeNext = nodes[(i+1) % nodesCount]
+					nodeNext = nodes[(i + 1) % nodesCount]
 
 					# show node coordinates
 					if node in selection:
@@ -104,10 +104,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								# find previous and next oncurve nodes to analyze the vertical path segment direction (ignore the handles)
 								nodePrevOncurve = nodePrev
 								nodeNextOncurve = nodeNext
-								if nodePrevOncurve.type == OFFCURVE: nodePrevOncurve = nodes[(i-2) % nodesCount]
-								if nodePrevOncurve.type == OFFCURVE: nodePrevOncurve = nodes[(i-3) % nodesCount]
-								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i+2) % nodesCount]
-								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i+3) % nodesCount]
+								if nodePrevOncurve.type == OFFCURVE: nodePrevOncurve = nodes[(i - 2) % nodesCount]
+								if nodePrevOncurve.type == OFFCURVE: nodePrevOncurve = nodes[(i - 3) % nodesCount]
+								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i + 2) % nodesCount]
+								if nodeNextOncurve.type == OFFCURVE: nodeNextOncurve = nodes[(i + 3) % nodesCount]
 								# move label below the node if the path segment moves up but not orthogonal
 								prevUp = nodePrevOncurve.y > nodeY
 								nextUp = nodeNextOncurve.y > nodeY
@@ -122,8 +122,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 									alignLeft = 'topleft'
 								positionLeft = NSPoint(nodeX - offset + shift, y)
 								positionRight = NSPoint(nodeX + offset - shift, y)
+
 								def cleanZero(v, eps=1e-9):
 									return 0 if abs(v) < eps else v
+
 								textLeft = str(cleanZero(nodeX)).replace('.0', '')
 								textRight = str(cleanZero(nodeY)).replace('.0', '')
 								# show x coordinate left of center
@@ -142,19 +144,19 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 						splitPoints = [pointOne]
 						for p in intersections:
 							if self.pointOnSegment(p, pointOne, pointTwo):
-								if distance((p.x, p.y), (pointOne.x, pointOne.y)) < 0.01:
+								if distance(p, pointOne) < 0.01:
 									continue
-								if distance((p.x, p.y), (pointTwo.x, pointTwo.y)) < 0.01:
+								if distance(p, pointTwo) < 0.01:
 									continue
 								splitPoints.append(p)
 						splitPoints.append(pointTwo)
 						splitPoints.sort(key=lambda pt: (pt.x - pointOne.x)**2 + (pt.y - pointOne.y)**2)
-						for j in range(len(splitPoints)-1):
+						for j in range(len(splitPoints) - 1):
 							posOne = splitPoints[j]
-							posTwo = splitPoints[j+1]
+							posTwo = splitPoints[j + 1]
 							posMid = addPoints(posOne, posTwo)
 							position = NSPoint(posMid.x * 0.5, posMid.y * 0.5)
-							distanceValue = distance((posOne.x, posOne.y), (posTwo.x, posTwo.y))
+							distanceValue = distance(posOne, posTwo)
 							distanceTreshold = distanceValue * scale > 50
 							if len(selection) > 2:
 								distanceTreshold = distanceValue * scale > 30
@@ -171,10 +173,10 @@ class ShowCoordinatesDistanceAngle(ReporterPlugin):
 								transform.concat()
 							# show distance
 							if distanceTreshold:
-								self.drawTextAtPoint(distanceLabel, (position.x, position.y + offset), fontColor=blue, align='bottomcenter')
+								self.drawTextAtPoint(distanceLabel, NSPoint(position.x, position.y + offset), fontColor=blue, align='bottomcenter')
 							# show angle
 							if angleLabel != '0' and angleLabel != '90' and distanceTreshold:
-								self.drawTextAtPoint(angleLabel + '°', (position.x, position.y - offset), fontColor=green, align='topcenter')
+								self.drawTextAtPoint(angleLabel + '°', NSPoint(position.x, position.y - offset), fontColor=green, align='topcenter')
 							# restore context if rotated
 							if (angleLabel != '90'):
 								NSGraphicsContext.restoreGraphicsState()
